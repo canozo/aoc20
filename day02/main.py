@@ -6,9 +6,9 @@ def v1(input_file):
         # minimum-maximum char: pw
         for unstripped_line in file:
             line = unstripped_line.strip('\n')
-            [instructs, pw] = line.split(': ')
-            [limits, char] = instructs.split(' ')
-            [minimum, maximum] = map(int, limits.split('-'))
+            instructs, pw = line.split(': ')
+            limits, char = instructs.split(' ')
+            minimum, maximum = map(int, limits.split('-'))
             if minimum <= pw.count(char) <= maximum:
                 result += 1
     return result
@@ -19,10 +19,10 @@ def v2(input_file):
         # pos1-pos2 char: pw
         for unstripped_line in file:
             line = unstripped_line.strip('\n')
-            [instructs, pw] = line.split(': ')
-            [limits, char] = instructs.split(' ')
+            instructs, pw = line.split(': ')
+            limits, char = instructs.split(' ')
             # notice: there's no index 0, substract 1
-            [pos1, pos2] = map(lambda x: int(x) - 1, limits.split('-'))
+            pos1, pos2 = map(lambda x: int(x) - 1, limits.split('-'))
             if pw[pos1] != pw[pos2] and (pw[pos1] == char or pw[pos2] == char):
                 result += 1
     return result

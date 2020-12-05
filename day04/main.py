@@ -83,7 +83,7 @@ def v1(input_file):
                     break
                 if field == '':
                     continue
-                [key, value] = field.split(':')
+                key, value = field.split(':')
                 print('- ' + key + ' => ' + value)
                 passport_fields[key] = True
 
@@ -113,7 +113,7 @@ def v2(input_file):
                     break
                 if field == '':
                     continue
-                [key, value] = field.split(':')
+                key, value = field.split(':')
                 print('- ' + key + ' => ' + value)
                 passport_fields[key] = value
 
