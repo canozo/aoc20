@@ -1,2 +1,7 @@
+# input files
 logs.txt
 example.txt
+
+# object files
+*.obj
+*.exe
