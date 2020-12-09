@@ -42,7 +42,7 @@ link_t *new_link(node_t *, int);
 /* ------------------------------ GRAPH ------------------------------ */
 graph_t *new_graph()
 {
-    graph_t *this = (graph_t *) malloc(sizeof(*this));
+    graph_t *this = malloc(sizeof(*this));
     this->size = 0;
     return this;
 }
@@ -130,35 +130,27 @@ int node_travel_parents(node_t *this, int depth)
     int traveled = 0;
     if (!this->marked)
     {
-        printf("%*ctraveling %s\n", w, ' ', this->name);
         traveled += 1;
         this->marked = 1;
         for (int i = 0; i < this->size_parents; i += 1)
         {
             node_t *parent = this->parents[i]->next;
-            printf("%*cparent found: %s\n", w, ' ', parent->name);
             traveled += node_travel_parents(parent, depth + 1);
         }
     }
-    printf("%*ctravel count: %d\n", w, ' ', traveled);
     return traveled;
 }
 
 int node_count_children(node_t *this, int parent_bags, int depth)
 {
     int w = 2 * depth;
-    printf("%*ccounting children of: %s\n", w, ' ', this->name);
-    printf("%*ccurrent parent count: %d\n", w, ' ', parent_bags);
-
     int bags = 0;
     for (int i = 0; i < this->size_children; i += 1)
     {
         link_t *link = this->children[i];
         int prod = link->weight * parent_bags;
-        printf("%*clink found: %s with weight %d\n", w, ' ', link->next->name, link->weight);
         bags += prod + node_count_children(link->next, prod, depth + 1);
     }
-    printf("%*cchildren count: %d\n", w, ' ', bags);
     return bags;
 }
 
@@ -180,11 +172,9 @@ void delete_link(link_t *this)
 int main(int argc, char *argv[])
 {
     char *filename = "input.txt";
-    int part = 1;
-    if (argc > 2)
+    if (argc > 1)
     {
         filename = argv[1];
-        part = atoi(argv[2]);
     }
 
     FILE *file = fopen(filename, "r");
@@ -233,19 +223,8 @@ int main(int argc, char *argv[])
     }
 
     node_t *shiny_gold = graph_find_node(graph, "shiny gold");
-
-    if (part == 1)
-    {
-        printf("bags that contain shiny gold: %d\n", node_travel_parents(shiny_gold, 1) - 1);
-    }
-    else if (part == 2)
-    {
-        printf("bags inside shiny gold: %d\n", node_count_children(shiny_gold, 1, 1));
-    }
-
-    printf("nodes in graph: %d\n", graph->size);
-    printf("shiny gold parents: %d\n", shiny_gold->size_parents);
-    printf("shiny gold children: %d\n", shiny_gold->size_children);
+    printf("bags that contain shiny gold: %d\n", node_travel_parents(shiny_gold, 1) - 1);
+    printf("bags inside shiny gold: %d\n", node_count_children(shiny_gold, 1, 1));
 
     delete_graph(graph);
     fclose(file);
