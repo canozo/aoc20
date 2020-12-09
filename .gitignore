@@ -1,6 +1,6 @@
 # input files
 logs.txt
-example.txt
+example*.txt
 
 # object files
 *.obj
