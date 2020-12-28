@@ -2,7 +2,8 @@ read_input = fn (filename) ->
   case File.read(filename) do
     {:ok, contents} ->
       contents
-      |> String.split("\r\n", trim: true)
+      |> String.replace("\r\n", "\n")
+      |> String.split("\n", trim: true)
       |> Enum.map(&(String.to_integer(&1)))
     {:error, :enoent} ->
       IO.puts "Could not find #{filename}"
